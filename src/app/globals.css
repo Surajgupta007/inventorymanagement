@@ -1,26 +1,402 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --font-sans: 'Inter', system-ui, sans-serif;
+
+  --color-brand-50: oklch(97% 0.02 270);
+  --color-brand-100: oklch(93% 0.06 270);
+  --color-brand-200: oklch(87% 0.10 270);
+  --color-brand-300: oklch(78% 0.14 270);
+  --color-brand-400: oklch(68% 0.18 270);
+  --color-brand-500: oklch(58% 0.22 270);
+  --color-brand-600: oklch(50% 0.24 270);
+  --color-brand-700: oklch(42% 0.22 270);
+  --color-brand-800: oklch(35% 0.18 270);
+  --color-brand-900: oklch(28% 0.14 270);
+
+  --color-surface-0: oklch(8% 0.02 270);
+  --color-surface-1: oklch(12% 0.02 270);
+  --color-surface-2: oklch(16% 0.025 270);
+  --color-surface-3: oklch(20% 0.025 270);
+  --color-surface-4: oklch(24% 0.025 270);
+
+  --color-text-primary: oklch(97% 0.005 270);
+  --color-text-secondary: oklch(75% 0.01 270);
+  --color-text-muted: oklch(55% 0.01 270);
+
+  --color-success: oklch(70% 0.18 145);
+  --color-warning: oklch(78% 0.18 70);
+  --color-danger: oklch(62% 0.22 25);
+  --color-info: oklch(70% 0.18 220);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-surface-0);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-surface-1);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-surface-4);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand-600);
+}
+
+/* ── Glass card ── */
+.glass-card {
+  background: color-mix(in oklch, var(--color-surface-2) 80%, transparent);
+  border: 1px solid color-mix(in oklch, white 8%, transparent);
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
+}
+
+/* ── Input base ── */
+.input-base {
+  width: 100%;
+  background: var(--color-surface-3);
+  border: 1px solid color-mix(in oklch, white 10%, transparent);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
+  transition: border-color 150ms, box-shadow 150ms;
+  outline: none;
+}
+.input-base:focus {
+  border-color: var(--color-brand-500);
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--color-brand-500) 20%, transparent);
+}
+.input-base::placeholder {
+  color: var(--color-text-muted);
+}
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 8px;
+  padding: 9px 18px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 150ms;
+  border: none;
+  text-decoration: none;
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-brand-600), var(--color-brand-500));
+  color: white;
+  box-shadow: 0 2px 8px color-mix(in oklch, var(--color-brand-600) 40%, transparent);
+}
+.btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--color-brand-500), var(--color-brand-400));
+  box-shadow: 0 4px 16px color-mix(in oklch, var(--color-brand-600) 50%, transparent);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: var(--color-surface-3);
+  color: var(--color-text-primary);
+  border: 1px solid color-mix(in oklch, white 10%, transparent);
+}
+.btn-secondary:hover:not(:disabled) {
+  background: var(--color-surface-4);
+}
+
+.btn-danger {
+  background: color-mix(in oklch, var(--color-danger) 20%, transparent);
+  color: var(--color-danger);
+  border: 1px solid color-mix(in oklch, var(--color-danger) 30%, transparent);
+}
+.btn-danger:hover:not(:disabled) {
+  background: color-mix(in oklch, var(--color-danger) 30%, transparent);
+}
+
+.btn-success {
+  background: color-mix(in oklch, var(--color-success) 20%, transparent);
+  color: var(--color-success);
+  border: 1px solid color-mix(in oklch, var(--color-success) 30%, transparent);
+}
+.btn-success:hover:not(:disabled) {
+  background: color-mix(in oklch, var(--color-success) 30%, transparent);
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+}
+
+/* ── Table ── */
+.table-base {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+.table-base th {
+  text-align: left;
+  padding: 10px 16px;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid color-mix(in oklch, white 8%, transparent);
+}
+.table-base td {
+  padding: 14px 16px;
+  border-bottom: 1px solid color-mix(in oklch, white 5%, transparent);
+  color: var(--color-text-secondary);
+}
+.table-base tr:hover td {
+  background: color-mix(in oklch, var(--color-surface-3) 50%, transparent);
+  color: var(--color-text-primary);
+}
+.table-base tr:last-child td {
+  border-bottom: none;
+}
+
+/* ── Badge ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.badge-green {
+  background: color-mix(in oklch, var(--color-success) 15%, transparent);
+  color: var(--color-success);
+  border: 1px solid color-mix(in oklch, var(--color-success) 25%, transparent);
+}
+.badge-yellow {
+  background: color-mix(in oklch, var(--color-warning) 15%, transparent);
+  color: var(--color-warning);
+  border: 1px solid color-mix(in oklch, var(--color-warning) 25%, transparent);
+}
+.badge-red {
+  background: color-mix(in oklch, var(--color-danger) 15%, transparent);
+  color: var(--color-danger);
+  border: 1px solid color-mix(in oklch, var(--color-danger) 25%, transparent);
+}
+.badge-blue {
+  background: color-mix(in oklch, var(--color-info) 15%, transparent);
+  color: var(--color-info);
+  border: 1px solid color-mix(in oklch, var(--color-info) 25%, transparent);
+}
+.badge-purple {
+  background: color-mix(in oklch, var(--color-brand-500) 15%, transparent);
+  color: var(--color-brand-400);
+  border: 1px solid color-mix(in oklch, var(--color-brand-500) 25%, transparent);
+}
+.badge-gray {
+  background: color-mix(in oklch, white 6%, transparent);
+  color: var(--color-text-muted);
+  border: 1px solid color-mix(in oklch, white 10%, transparent);
+}
+
+/* ── Stat card ── */
+.stat-card {
+  background: var(--color-surface-2);
+  border: 1px solid color-mix(in oklch, white 8%, transparent);
+  border-radius: 12px;
+  padding: 20px 24px;
+  transition: transform 200ms, box-shadow 200ms;
+}
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+/* ── Form group ── */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.form-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.form-error {
+  font-size: 0.75rem;
+  color: var(--color-danger);
+}
+
+/* ── Page header ── */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+.page-subtitle {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+/* ── Sidebar ── */
+.sidebar {
+  width: 240px;
+  min-height: 100vh;
+  background: var(--color-surface-1);
+  border-right: 1px solid color-mix(in oklch, white 6%, transparent);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 40;
+}
+.sidebar-logo {
+  padding: 0 20px 24px;
+  border-bottom: 1px solid color-mix(in oklch, white 6%, transparent);
+}
+.sidebar-nav {
+  flex: 1;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: all 150ms;
+}
+.nav-link:hover {
+  background: var(--color-surface-3);
+  color: var(--color-text-primary);
+}
+.nav-link.active {
+  background: color-mix(in oklch, var(--color-brand-600) 20%, transparent);
+  color: var(--color-brand-400);
+}
+.nav-section-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  padding: 8px 12px 4px;
+  margin-top: 8px;
+}
+
+/* ── Main content with sidebar ── */
+.main-with-sidebar {
+  margin-left: 240px;
+  min-height: 100vh;
+  padding: 32px;
+}
+
+/* ── Gradient text ── */
+.gradient-text {
+  background: linear-gradient(135deg, var(--color-brand-400), var(--color-brand-200));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Empty state ── */
+.empty-state {
+  text-align: center;
+  padding: 60px 24px;
+  color: var(--color-text-muted);
+}
+.empty-state-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+/* ── Animations ── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fadeIn 300ms ease forwards;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklch, var(--color-brand-500) 0%, transparent); }
+  50% { box-shadow: 0 0 0 8px color-mix(in oklch, var(--color-brand-500) 15%, transparent); }
+}
+
+/* ── Select ── */
+select.input-base {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+/* ── Modal overlay ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  animation: fadeIn 200ms ease;
+}
+.modal-content {
+  background: var(--color-surface-2);
+  border: 1px solid color-mix(in oklch, white 10%, transparent);
+  border-radius: 16px;
+  padding: 28px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: fadeIn 200ms ease;
 }
