@@ -367,6 +367,24 @@ body {
   50% { box-shadow: 0 0 0 8px color-mix(in oklch, var(--color-brand-500) 15%, transparent); }
 }
 
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-3) 25%,
+    color-mix(in oklch, var(--color-surface-3) 93%, white 7%) 37%,
+    var(--color-surface-3) 63%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite linear;
+  border-radius: 4px;
+}
+
+
 /* ── Select ── */
 select.input-base {
   cursor: pointer;

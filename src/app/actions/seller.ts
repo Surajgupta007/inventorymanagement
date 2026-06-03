@@ -26,6 +26,8 @@ function generateOrderNumber(): string {
 export type PlaceOrderState = {
   errors?: Record<string, string[] | string>;
   message?: string;
+  success?: boolean;
+  orderId?: string;
 } | undefined;
 
 export async function placeOrder(
@@ -112,5 +114,6 @@ export async function placeOrder(
   );
 
   revalidatePath('/seller/orders');
-  redirect(`/seller/orders/${newOrder.id}`);
+  return { success: true, orderId: newOrder.id };
 }
+

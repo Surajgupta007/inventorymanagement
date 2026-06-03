@@ -1,15 +1,24 @@
 'use client';
 
 import { useCartStore } from '@/lib/cart-store';
-import { formatINR, UNIT_LABELS, SupportedUnit, getUnitsForDimension, calculateLineTotal } from '@/lib/units';
+import { formatINR, UNIT_LABELS, SupportedUnit, getUnitsForDimension } from '@/lib/units';
 import { placeOrder } from '@/app/actions/seller';
-import { useActionState, useState } from 'react';
+import { useActionState, useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function CartView() {
+  const router = useRouter();
   const { items, removeItem, updateItem, clearCart, getTotalAmount } = useCartStore();
   const [notes, setNotes] = useState('');
   const [state, action, pending] = useActionState(placeOrder, undefined);
+
+  useEffect(() => {
+    if (state?.success && state?.orderId) {
+      clearCart();
+      router.push(`/seller/orders/${state.orderId}`);
+    }
+  }, [state, clearCart, router]);
 
   if (items.length === 0) {
     return (
