@@ -13,14 +13,20 @@ export type LoginState = {
   message?: string;
 } | undefined;
 
-export async function login(state: LoginState, formData: FormData): Promise<LoginState> {
+export async function login(state: LoginState | undefined, formData: FormData): Promise<LoginState> {
   const parsed = LoginSchema.safeParse({
     email: formData.get('email'),
     password: formData.get('password'),
   });
 
   if (!parsed.success) {
-    return { errors: parsed.error.flatten().fieldErrors as LoginState['errors'] };
+    const fieldErrors = parsed.error.flatten().fieldErrors;
+    return {
+      errors: {
+        email: fieldErrors.email as string[] | undefined,
+        password: fieldErrors.password as string[] | undefined,
+      },
+    };
   }
 
   const { email, password } = parsed.data;
