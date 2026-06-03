@@ -3,7 +3,7 @@
 import { deleteProduct } from '@/app/actions/admin';
 import { useState } from 'react';
 
-export default function DeleteProductButton({ id, name }: { id: string; name: string }) {
+export function DeleteProductButton({ id, name }: { id: string; name: string }) {
   const [loading, setLoading] = useState(false);
 
   async function handleDelete() {

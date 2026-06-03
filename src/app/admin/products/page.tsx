@@ -4,7 +4,7 @@ import { products, categories } from '@/lib/db/schema';
 import { eq, ilike, or, and } from 'drizzle-orm';
 import Link from 'next/link';
 import { formatINR, UNIT_SHORT, SupportedUnit, BASE_UNIT, Dimension } from '@/lib/units';
-import DeleteProductButton from './DeleteProductButton';
+import { DeleteProductButton } from './DeleteProductButton';
 
 export const metadata: Metadata = { title: 'Products' };
 
